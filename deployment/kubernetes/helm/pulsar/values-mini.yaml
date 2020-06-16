@@ -245,7 +245,7 @@ proxy:
     ports:
     - name: http
       port: 8080
-      nodePort: 30001
+      nodePort: 30102
       protocol: TCP
     - name: tcp
       port: 6650

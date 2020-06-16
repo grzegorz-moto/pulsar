@@ -40,11 +40,15 @@ data:
 ##
 ## Broker deployment definition
 ##
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: broker
 spec:
+    selector:
+      matchLabels:
+        app: pulsar
+        component: broker
     replicas: 3
     template:
         metadata:
@@ -57,7 +61,7 @@ spec:
         spec:
             containers:
               - name: broker
-                image: apachepulsar/pulsar-all:latest
+                image: docker.io/ags039/cc911pulsar-all:2.5.2-1
                 command: ["sh", "-c"]
                 args:
                   - >

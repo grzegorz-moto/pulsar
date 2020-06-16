@@ -17,21 +17,22 @@
 # under the License.
 #
 
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRole
-metadata:
-    name: prometheus-cluster-role
-rules:
-  - apiGroups: [""]
-    resources:
-      - nodes
-      - nodes/proxy
-      - services
-      - endpoints
-      - pods
-    verbs: ["get", "list", "watch"]
-  - nonResourceURLs: ["/metrics"]
-    verbs: ["get"]
+#apiVersion: rbac.authorization.k8s.io/v1beta1
+#kind: ClusterRole
+#metadata:
+#    name: prometheus-cluster-role
+#    namespace: cc-routing-dev
+#rules:
+#  - apiGroups: [""]
+#    resources:
+#      - nodes
+#      - nodes/proxy
+#      - services
+#      - endpoints
+#      - pods
+#    verbs: ["get", "list", "watch"]
+#  - nonResourceURLs: ["/metrics"]
+#    verbs: ["get"]
 
 ---
 
@@ -39,22 +40,23 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
     name: prometheus-service-account
-    namespace: default
-
----
-
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-    name: prometheus-cluster-role-binding
-roleRef:
-    apiGroup: rbac.authorization.k8s.io
-    kind: ClusterRole
-    name: prometheus-cluster-role
-subjects:
-  - kind: ServiceAccount
-    name: prometheus-service-account
-    namespace: default
+    namespace: cc-routing-dev
+#
+#---
+#
+#apiVersion: rbac.authorization.k8s.io/v1beta1
+#kind: ClusterRoleBinding
+#metadata:
+#    name: prometheus-cluster-role-binding
+#    namespace: cc-routing-dev
+#roleRef:
+#    apiGroup: rbac.authorization.k8s.io
+#    kind: ClusterRole
+#    name: prometheus-cluster-role
+#subjects:
+#  - kind: ServiceAccount
+#    name: prometheus-service-account
+#    namespace: cc-routing-dev
 
 ---
 
@@ -103,11 +105,15 @@ data:
 
 ---
 
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: prometheus
 spec:
+    selector:
+      matchLabels:
+        app: pulsar
+        component: prometheus
     replicas: 1
     template:
         metadata:
@@ -157,11 +163,15 @@ spec:
 ---
 ## GRAFANA
 
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: grafana
 spec:
+    selector:
+      matchLabels:
+        app: pulsar
+        component: grafana
     replicas: 1
     template:
         metadata:
@@ -201,7 +211,7 @@ spec:
 ---
 ## Include detailed Pulsar dashboard
 
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: pulsar-dashboard

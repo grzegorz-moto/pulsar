@@ -31,11 +31,15 @@ data:
 ##
 ## Proxy deployment definition
 ##
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
     name: proxy
 spec:
+    selector:
+      matchLabels:
+        app: pulsar
+        component: proxy
     replicas: 2
     template:
         metadata:
@@ -48,7 +52,7 @@ spec:
         spec:
             containers:
               - name: proxy
-                image: apachepulsar/pulsar-all:latest
+                image: docker.io/ags039/cc911pulsar-all:2.5.2-1
                 command: ["sh", "-c"]
                 args:
                   - >
@@ -68,7 +72,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-    name: proxy
+    name: pulsar-proxy
     labels:
         app: pulsar
         component: proxy
@@ -76,11 +80,9 @@ spec:
     type: NodePort
     ports:
       - name: http
-        nodePort: 30001
         port: 8080
         protocol: TCP
       - name: tcp
-        nodePort: 30002
         port: 6650
         protocol: TCP
     selector:

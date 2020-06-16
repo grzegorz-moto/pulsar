@@ -29,3 +29,4 @@ RUN mv /apache-pulsar-offloaders-*/offloaders /offloaders
 FROM apachepulsar/pulsar:latest
 COPY --from=pulsar-all /connectors /pulsar/connectors
 COPY --from=pulsar-all /offloaders /pulsar/offloaders
+USER 1000:1000

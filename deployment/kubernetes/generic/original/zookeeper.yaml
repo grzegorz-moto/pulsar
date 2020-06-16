@@ -83,7 +83,7 @@ spec:
                             topologyKey: "kubernetes.io/hostname"
             containers:
               - name: zookeeper
-                image: apachepulsar/pulsar-all:latest
+                image: docker.io/ags039/cc911pulsar-all:2.5.2-1
                 command: ["sh", "-c"]
                 args:
                   - >
@@ -122,6 +122,8 @@ spec:
                 volumeMounts:
                   - name: datadir
                     mountPath: /pulsar/data
+                securityContext:
+                  runAsUser: 1000
             volumes:
               - name: datadir
                 emptyDir: {}

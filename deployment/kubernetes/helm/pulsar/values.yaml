@@ -18,8 +18,8 @@
 #
 
 ## Namespace to deploy pulsar
-namespace: pulsar
-namespaceCreate: yes
+namespace: cc-routing-dev
+namespaceCreate: no
 
 ## If persistence is enabled, components that have state will
 ## be deployed with PersistentVolumeClaims, otherwise, for test
@@ -29,9 +29,9 @@ persistence: no
 ## If prometheus_persistence is enabled, prometheus will be deployed
 ## with PersistentVolumeClaims, otherwise, for test purposes, they
 ## will be deployed with emptyDir
-prometheus_persistence: yes
+prometheus_persistence: no
 
-prometheus_rbac: yes
+prometheus_rbac: no
 
 ## which extra components to deploy
 extra:
@@ -48,12 +48,12 @@ extra:
   # Bastion pod for administrative commands
   bastion: yes
   # Monitoring stack (prometheus and grafana)
-  monitoring: yes
+  monitoring: no
 
 ## Which pulsar image to use
 image:
-  repository: apachepulsar/pulsar-all
-  tag: latest
+  repository: docker.io/ags039/cc911pulsar-all
+  tag: 2.5.2-1
   pullPolicy: IfNotPresent
 
 ## Pulsar: Zookeeper cluster
@@ -82,7 +82,7 @@ zookeeper:
       size: 20Gi
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
-      # storageClassName: existent-storage-class
+      storageClassName: managed-premium
       #
       ## Instead if you want to create a new storage class define it below
       ## If left undefined no storage class will be defined along with PVC
@@ -152,7 +152,7 @@ bookkeeper:
       size: 50Gi
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
-      # storageClassName: existent-storage-class
+      storageClassName: managed-premium
       #
       ## Instead if you want to create a new storage class define it below
       ## If left undefined no storage class will be defined along with PVC
@@ -166,7 +166,7 @@ bookkeeper:
       size: 50Gi
       ## If you already have an existent storage class and want to reuse it, you can specify its name with the option below
       ##
-      # storageClassName: existent-storage-class
+      storageClassName: managed-standard
       #
       ## Instead if you want to create a new storage class define it below
       ## If left undefined no storage class will be defined along with PVC
@@ -279,7 +279,7 @@ proxy:
     ports:
     - name: http
       port: 8080
-      nodePort: 30001
+      nodePort: 30102
       protocol: TCP
     - name: tcp
       port: 6650
@@ -472,7 +472,6 @@ pulsar_manager:
   ## templates/pulsar-manager-service.yaml
   ##
   service:
-    type: LoadBalancer
     annotations: {}
     ports:
       - name: server

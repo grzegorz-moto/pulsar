@@ -29,7 +29,9 @@ spec:
     spec:
       containers:
         - name: pulsar-cluster-metadata-init-container
-          image: apachepulsar/pulsar:latest
+          image: ciedevelop.azurecr.io/cc911apachepulsar/cc911pulsar:2.5.2
+          securityContext:
+            runAsUser: 1001
           command: ["sh", "-c"]
           args:
             - >

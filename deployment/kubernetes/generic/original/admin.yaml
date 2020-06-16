@@ -24,7 +24,7 @@ metadata:
 spec:
     containers:
       - name: pulsar-admin
-        image: apachepulsar/pulsar:latest
+        image: docker.io/ags039/cc911pulsar-all:2.5.2-1
         command: ["sh", "-c"]
         args:
           - >

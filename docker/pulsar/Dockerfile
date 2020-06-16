@@ -67,6 +67,5 @@ RUN apt-get update \
 
 WORKDIR /pulsar
 
-VOLUME  ["/pulsar/conf", "/pulsar/data"]
-
 ENV PULSAR_ROOT_LOGGER=INFO,CONSOLE
+RUN chmod -R a+w /pulsar

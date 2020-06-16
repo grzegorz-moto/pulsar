@@ -60,6 +60,8 @@ spec:
         - name: "{{ template "pulsar.fullname" . }}-{{ .Values.pulsar_manager.component }}"
           image: "{{ .Values.pulsar_manager.image.repository }}:{{ .Values.pulsar_manager.image.tag }}"
           imagePullPolicy: {{ .Values.pulsar_manager.image.pullPolicy }}
+          securityContext:
+            runAsUser: 1000
         {{- if .Values.grafana.resources }}
           resources:
 {{ toYaml .Values.pulsar_manager.resources | indent 10 }}
